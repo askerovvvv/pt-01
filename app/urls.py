@@ -7,4 +7,5 @@ urlpatterns = [
     path('get/cars/', views.get_all_cars),
     path('get/car/<int:car_id>', views.get_car_by_id),
     path('update/car/<int:car_id>', views.update_car),
+    path('delete/car/<int:car_id>', views.delete_car),
 ]

@@ -54,3 +54,42 @@ def update_car(request, car_id):
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+@api_view(["DELETE"])
+def delete_car(request, car_id):
+    car = Car.objects.filter(id=car_id).first()
+    if not car:
+        return Response({"message": "Car Not found"}, status=status.HTTP_404_NOT_FOUND)
+    car.delete()
+    return Response({"message": "deleted"}, status=200)
+
+
+
+
+
+
+"""
+1) Создать pycharm проект
+2) перечислить библиоетки в файле и скачать их вссех
+3) создать джанго проект и приложение
+4) Создать модельку в models
+5) в settings.py в installed_apps добавить название приложение
+6) сделать миграции --> python manage.py makemigrations, 
+python manage.py migrate
+7) создать файл serializers.py и создать класс serializer с необходимвыми 
+атрибутами
+8) в файле views сделать CRUD и закрепить все функции к ссылкам
+9) протестировать весь функционал
+"""
+
+
+
+
+
+
+
+
+
+
+
+

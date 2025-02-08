@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.decorators import api_view
+from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
 from rest_framework.response import Response
 
 from app.models import Car
@@ -64,32 +65,28 @@ def delete_car(request, car_id):
     return Response({"message": "deleted"}, status=200)
 
 
+# GET
+class CarListView(ListAPIView):
+    queryset = Car.objects.all()
+    serializer_class = CarSerializer
 
 
+# POST
+class CarCreateView(CreateAPIView):
+    queryset = Car.objects.all()
+    serializer_class = CarSerializer
 
 
-"""
-1) Создать pycharm проект
-2) перечислить библиоетки в файле и скачать их вссех
-3) создать джанго проект и приложение
-4) Создать модельку в models
-5) в settings.py в installed_apps добавить название приложение
-6) сделать миграции --> python manage.py makemigrations, 
-python manage.py migrate
-7) создать файл serializers.py и создать класс serializer с необходимвыми 
-атрибутами
-8) в файле views сделать CRUD и закрепить все функции к ссылкам
-9) протестировать весь функционал
-"""
+class CarByIdApiView(RetrieveAPIView):
+    queryset = Car.objects.all()
+    serializer_class = CarSerializer
 
 
+class CarUpdateApiView(UpdateAPIView):
+    queryset = Car.objects.all()
+    serializer_class = CarSerializer
 
 
-
-
-
-
-
-
-
-
+class CarDeleteApiView(DestroyAPIView):
+    queryset = Car.objects.all()
+    serializer_class = CarSerializer

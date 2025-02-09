@@ -1,17 +1,22 @@
 from rest_framework import serializers
 
-from app.models import Car
+from app.models import Car, Category
 
 
-class CarSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    brand = serializers.CharField(max_length=30)
-    model = serializers.CharField(max_length=30)
-    date = serializers.DateField()
-    description = serializers.CharField()
-    price = serializers.IntegerField()
+class CategorySerializer(serializers.ModelSerializer):
 
+    class Meta:
+        model = Category
+        fields = ["id", "name", "full_name"]
+
+
+class CarSerializer(serializers.ModelSerializer):
     created_at = serializers.DateTimeField(read_only=True)
+    category = CategorySerializer()
+
+    class Meta:
+        model = Car
+        fields = "__all__"
 
     def create(self, validated_data):
         return Car.objects.create(**validated_data)

@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.decorators import api_view
-from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView, \
+    ListCreateAPIView
 from rest_framework.response import Response
 
-from app.models import Car
-from app.serializers import CarSerializer
+from app.models import Car, Category
+from app.serializers import CarSerializer, CategorySerializer
 
 
 # Create your views here.
@@ -90,3 +91,10 @@ class CarUpdateApiView(UpdateAPIView):
 class CarDeleteApiView(DestroyAPIView):
     queryset = Car.objects.all()
     serializer_class = CarSerializer
+
+
+class CategoryListCreateApiView(ListCreateAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+

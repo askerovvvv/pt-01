@@ -13,5 +13,7 @@ urlpatterns = [
     path('car/<pk>', views.CarByIdApiView.as_view()),
     path('car/update/<pk>', views.CarUpdateApiView.as_view()),
     path('car/delete/<pk>', views.CarDeleteApiView.as_view()),
+    path('category/list/create/', views.CategoryListCreateApiView.as_view()),
+
 ]
 

@@ -27,3 +27,11 @@ class CarSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+
+"""
+1) Логика фотографий
+2) Регистрация\аутенфикация -->  Избранные, лайки
+3) выбор валют
+4) добавитм тг бота, 
+5) поиск
+"""

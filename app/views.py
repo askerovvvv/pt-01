@@ -3,6 +3,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView, \
     ListCreateAPIView
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 
 from app.models import Car, Category
@@ -66,11 +67,31 @@ def delete_car(request, car_id):
     return Response({"message": "deleted"}, status=200)
 
 
+class CarPagination(PageNumberPagination):
+    page_size = 5
+    page_size_query_param = 'page_size'
+    max_page_size = 10000
+
+
 # GET
 class CarListView(ListAPIView):
     queryset = Car.objects.all()
     serializer_class = CarSerializer
+    pagination_class = CarPagination
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        category_id = self.request.query_params.get("category")
+        brand = self.request.query_params.get(" ")
+        price = self.request.query_params.get("price")
+        if category_id:
+            queryset = queryset.filter(category__id=category_id)
+        if brand:
+            queryset = queryset.filter(brand=brand)
+        if price:
+            queryset = queryset.filter(price__gte=price)
+
+        return queryset
 
 # POST
 class CarCreateView(CreateAPIView):

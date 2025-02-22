@@ -35,3 +35,6 @@ class CarSerializer(serializers.ModelSerializer):
 4) добавитм тг бота, 
 5) поиск
 """
+
+
+

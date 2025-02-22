@@ -119,3 +119,17 @@ class CategoryListCreateApiView(ListCreateAPIView):
     serializer_class = CategorySerializer
 
 
+
+"""
+CreateAPIView
+ListAPIView
+
+RetrieveAPIView
+UpdateAPIView
+DestroyAPIView
+/<pk>
+
+
+
+CRUD - filter, pagination
+"""

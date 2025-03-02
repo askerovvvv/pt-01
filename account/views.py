@@ -1,10 +1,9 @@
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.authtoken.models import Token
-from rest_framework.authtoken.views import ObtainAuthToken
+from django.http import HttpResponse
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from account.serializers import RegisterSerializer, LoginSerializer
+from account.models import CustomUser
+from account.serializers import RegisterSerializer
 
 
 # Create your views here.
@@ -20,15 +19,14 @@ class RegisterApiView(APIView):
         return Response(serializer.errors, status=400)
 
 
-# class LoginApiView(ObtainAuthToken):
-#     def post(self, request, *args, **kwargs):
-#         serializer = self.serializer_class(data=request.data,
-#                                            context={'request': request})
-#         serializer.is_valid(raise_exception=True)
-#         user = serializer.validated_data['user']
-#         token, created = Token.objects.get_or_create(user=user)
-#         return Response({
-#             'token': token.key,
-#             'user_id': user.pk,
-#             'email': user.email
-#         })
+class ActivateUserApiView(APIView):
+    def get(self, request, activation_code):
+        try:
+            user = CustomUser.objects.get(activation_code=activation_code)
+            user.is_active = True
+            user.activation_code = ''
+            user.save()
+            return HttpResponse("Your account have been successfully activated!")
+        except CustomUser.DoesnotExist:
+            return HttpResponse('Your activation code is not valid please check it again and try')
+

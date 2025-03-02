@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView, \
     ListCreateAPIView
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 
 from app.models import Car, Category
@@ -75,6 +76,7 @@ class CarPagination(PageNumberPagination):
 
 # GET
 class CarListView(ListAPIView):
+    permission_classes = [IsAdminUser]
     queryset = Car.objects.all()
     serializer_class = CarSerializer
     pagination_class = CarPagination

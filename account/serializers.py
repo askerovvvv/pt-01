@@ -1,7 +1,7 @@
-from django.contrib.auth import authenticate
 from rest_framework import serializers
 
 from account.models import CustomUser
+from account.send_mail import send_activation_code
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -21,27 +21,6 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = CustomUser.objects.create_user(**validated_data)
+        code = user.activation_code
+        send_activation_code(user.email, code)
         return user
-
-
-class LoginSerializer(serializers.Serializer):
-    email = serializers.EmailField(required=True)
-    password = serializers.CharField(required=True)
-
-    def validate_email(self, email):
-        if not CustomUser.objects.filter(email=email).exists():
-            raise serializers.ValidationError("Такой пользователь не найден")
-
-        return email
-
-    def validate(self, attrs):
-        email = attrs.get("email")
-        password = attrs.get("password")
-
-        if email and password:
-            user = authenticate(username=email, password=password)
-            if not user:
-                raise serializers.ValidationError("Неверный логин или пароль")
-            attrs["user"] = user
-
-        return attrs
